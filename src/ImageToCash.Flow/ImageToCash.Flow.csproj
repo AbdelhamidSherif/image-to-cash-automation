@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageToCash.Core\ImageToCash.Core.csproj" />
+    <ProjectReference Include="..\ImageToCash.Extraction\ImageToCash.Extraction.csproj" />
+    <ProjectReference Include="..\ImageToCash.UiAutomation\ImageToCash.UiAutomation.csproj" />
+  </ItemGroup>
+
+</Project>

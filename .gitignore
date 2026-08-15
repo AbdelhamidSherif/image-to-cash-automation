@@ -1,0 +1,16 @@
+# Build output
+bin/
+obj/
+*.user
+
+# IDE
+.vs/
+.idea/
+*.suo
+
+# Test / screenshots output
+artifacts/
+
+# Local secrets
+*.env
+.env

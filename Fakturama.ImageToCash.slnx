@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ImageToCash.Console/ImageToCash.Console.csproj" />
+    <Project Path="src/ImageToCash.Core/ImageToCash.Core.csproj" />
+    <Project Path="src/ImageToCash.Extraction/ImageToCash.Extraction.csproj" />
+    <Project Path="src/ImageToCash.Flow/ImageToCash.Flow.csproj" />
+    <Project Path="src/ImageToCash.UiAutomation/ImageToCash.UiAutomation.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ImageToCash.Tests/ImageToCash.Tests.csproj" />
+  </Folder>
+</Solution>
