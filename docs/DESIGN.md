@@ -27,9 +27,12 @@ Fakturama is an **Eclipse RCP / SWT (Java)** desktop app. On Windows, SWT widget
 Windows controls, so **Microsoft UI Automation (FlaUI, UIA3 backend)** can enumerate the control
 tree. The grounding strategy:
 
-- **Locate controls by identity, not coordinates**: match on `AutomationId`, `Name`,
-  `ControlType`, and `ClassName`. Coordinates are used only as *last resort* and never stored
-  as layout constants. This is the direct answer to "no hardcoded coordinates / fixed layout".
+- **Locate controls by identity, not coordinates**: match on `Name`, `ControlType`, and
+  `ClassName`, plus **label adjacency** (`EditNearLabel`). **AutomationIds are deliberately
+  avoided** — Fakturama reports a different id for the same field on every launch (e.g. the Date
+  edit was `264324` one run, `592182` the next), so they are unstable. Coordinates are used only
+  as *last resort* and never stored as layout constants. This is the direct answer to "no
+  hardcoded coordinates / fixed layout".
 - **Wait for existence**: `ControlQuery.WaitFor` polls until a control appears. Eclipse RCP
   lazily creates editors, so controls (e.g. the New Order editor's Date field) are not present
   until the editor opens.
@@ -43,10 +46,15 @@ tree. The grounding strategy:
   (`-25600,-25538`); we set a visible position before interacting/screenshotting.
 
 ### Discovered control map (this machine)
-New Order (top toolbar `Create: New Order`), Save (`Save the current contents`), Date
-(`264324`), Cust.Ref. (`133388`), No. (`198772`), totals (Gross `133272`, VAT `67868`,
-Total `67872`), follow-up Invoice button (group `133290`), select-existing Debtor icon
-(`133274`, the upper icon — never the green `+` `133276`).
+New Order (top toolbar `Create: New Order`), Save (`Save the current contents`), Date (Edit
+adjacent to the `Date` label), Cust.Ref. (Edit named `Cust.Ref.`), No. (Edit adjacent to `No.`),
+totals (Edits by name `Total Gross` / `VAT` / `Total`), follow-up Invoice button (Button `Invoice`
+in the `Create a follow-up document` group — never the top-toolbar `Invoice`), select-existing
+Debtor icon (upper icon next to the Customer field — never the green `+`).
+
+Note: the concrete AutomationIds observed during discovery (Date `264324`, Cust.Ref. `133388`,
+No. `198772`, Gross `133272`, VAT `67868`, Total `67872`, follow-up group `133290`, debtor icon
+`133274`) are **unstable across launches** and must not be relied upon.
 
 ## 4. Image-extraction strategy
 

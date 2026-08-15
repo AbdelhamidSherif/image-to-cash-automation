@@ -13,7 +13,7 @@ layout-relative heuristic extraction (LLM-ready).
 ## Architecture
 
 ```
-Fakturama.ImageToCash.sln
+Fakturama.ImageToCash.slnx
 ├─ src
 │  ├─ ImageToCash.Core          domain models, IOrderExtractor, IFakturamaAutomation
 │  ├─ ImageToCash.Extraction    WindowsOcrEngine + HeuristicOrderExtractor
@@ -105,18 +105,22 @@ The exact-match decision logic and the manual-review gates are fully unit-tested
 ## Grounding strategy (control discovery)
 
 Fakturama is an **Eclipse RCP / SWT (Java)** app. On Windows, SWT maps to native controls, so
-FlaUI/UIA3 can read the tree. We match controls by **AutomationId / Name / ControlType** — never
-coordinates — and use a **poll-until-stable** waiter for async lists
-(`ControlQuery.WaitStable`). Key controls discovered on this machine (see `docs/DESIGN.md`):
+FlaUI/UIA3 can read the tree. **AutomationIds are unstable across Fakturama instances** (the same
+field reports a different id on each launch), so we ground controls by **Name + ControlType +
+label adjacency** — never by hardcoded AutomationId or coordinates — and use a
+**poll-until-stable** waiter for async lists (`ControlQuery.WaitStable`). Fields are filled by
+focusing the control and typing (SWT edits reject UIA `ValuePattern.SetValue` when the window is
+not foreground). Key controls discovered on this machine (see `docs/DESIGN.md`):
 
 | Control | How we find it |
 |---|---|
 | New Order (top toolbar) | Button `Create: New Order` |
 | Save | Button `Save the current contents` |
-| Date / Cust.Ref. / No. | Edits `264324` / `133388` / `198772` |
-| Totals (Gross / VAT / Total) | Edits `133272` / `67868` / `67872` |
-| Follow-up Invoice | Button `Invoice` in group `133290` |
-| Select-existing Debtor icon | Image `133274` (never the green `+`) |
+| Date | Edit adjacent to the `Date` label (`EditNearLabel`) |
+| Cust.Ref. / No. | Edit named `Cust.Ref.` / Edit adjacent to `No.` |
+| Totals (Gross / VAT / Total) | Edits by name (`Total Gross` / `VAT` / `Total`) |
+| Follow-up Invoice | Button `Invoice` (never the top-toolbar `Invoice`) |
+| Select-existing Debtor | Image next to the Customer field (never the green `+`) |
 
 ---
 
