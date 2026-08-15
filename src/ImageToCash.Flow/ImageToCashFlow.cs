@@ -53,8 +53,8 @@ public sealed class ImageToCashFlow
         }
         catch (Exception ex)
         {
-            _result.Error = ex.Message;
-            _result.Add("flow", "Unhandled error", StepStatus.Error, ex.Message);
+            _result.Error = $"{ex.GetType().Name}: {ex.Message}";
+            _result.Add("flow", "Unhandled error", StepStatus.Error, ex.ToString());
         }
         return _result;
     }
