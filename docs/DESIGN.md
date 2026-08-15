@@ -70,6 +70,20 @@ No. `198772`, Gross `133272`, VAT `67868`, Total `67872`, follow-up group `13329
 - **LLM-ready**: `IOrderExtractor` is the seam where a vision LLM can replace the heuristic
   normalizer when an API key is available.
 
+## 4a. OCR Backend — Alternatives Considered
+
+`baidu/Unlimited-OCR` (https://huggingface.co/baidu/Unlimited-OCR) was evaluated as a potential
+OCR backend for stage 1.1 extraction. It was not used because it requires a local NVIDIA GPU with
+CUDA 12.9, ~6.78GB of model weights, and recent torch/transformers versions (torch==2.10.0,
+transformers==4.57.1) — hardware not available on the target development machine. Instead, the
+chosen approach is the Hybrid Windows OCR + LLM pipeline described above, which runs without a
+local GPU. As a possible future alternative, `baidu/Unlimited-OCR` is also available as a hosted
+demo on Hugging Face Spaces (huggingface.co/spaces/baidu/Unlimited-OCR); it could be revisited
+later as a swappable OCR backend without needing local GPU inference, if extraction accuracy from
+the current approach proves insufficient.
+
+- This is a documented decision, not an implementation — no code changes, no new dependencies.
+
 ## 5. The five-stage flow (with verification gates)
 
 1. **Extract + open**: extract `OrderInfo`; open New Order; leave proposed No.; set Date,
