@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageToCash.Core\ImageToCash.Core.csproj" />
-    <ProjectReference Include="..\ImageToCash.Extraction\ImageToCash.Extraction.csproj" />
-    <ProjectReference Include="..\ImageToCash.UiAutomation\ImageToCash.UiAutomation.csproj" />
   </ItemGroup>
 
 </Project>
